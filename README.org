@@ -11,6 +11,8 @@ The idea is to produce an lcov from your cobertura files, and then
 activate [[https://github.com/twada/coverlay.el][coverlay]]. Also we want Emacs to do the whole thing for us, so
 also the generation of the coverage report is done asynchronously.
 
+Check out this blog for more details: https://ag91.github.io/blog/2021/01/11/coverlay-for-scala-or-how-to-produce-lcov-from-cobertura/
+
 I do this for Scala, but I guess as long as you produce cobertura.xml,
 you can always go back to lcov by changing this code slightly (get in
 touch if you would like that).
