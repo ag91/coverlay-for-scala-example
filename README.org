@@ -1,0 +1,74 @@
+* Coverlay for Scala
+:PROPERTIES:
+:CREATED:  [2021-01-11 Mon 17:55]
+:ID:       01a9c492-9012-47c6-a7c3-0c214107c558
+:END:
+
+This is some Elisp to show code coverage directly in your Scala files.
+It integrates Coverlay with a few Scala modes for Emacs.
+
+The idea is to produce an lcov from your cobertura files, and then
+activate [[https://github.com/twada/coverlay.el][coverlay]]. Also we want Emacs to do the whole thing for us, so
+also the generation of the coverage report is done asynchronously.
+
+I do this for Scala, but I guess as long as you produce cobertura.xml,
+you can always go back to lcov by changing this code slightly (get in
+touch if you would like that).
+
+** Installation and Dependencies
+:PROPERTIES:
+:CREATED:  [2020-12-11 Fri 19:10]
+:ID:       6d691473-a522-46cf-ae41-09fd5c2c69df
+:END:
+
+This project depends on the following external dependencies:
+
+- sbt-scoverage
+
+And the following Emacs packages:
+
+- coverlay
+- async.el
+- dash.el
+- s.el
+- projectile.el
+- scala-mode.el
+- esxml.el
+
+If you use =use-package= and you are on a Linux system, you can try
+things out in a clean Emacs:
+
+#+begin_src elisp :noeval :tangle /tmp/minimal-setup.el
+(require 'package)
+(eval-and-compile
+  (setq
+   package-archives
+   '(("melpa-stable" . "https://stable.melpa.org/packages/")
+     ("melpa" . "https://melpa.org/packages/")
+     ("marmalade"   . "https://marmalade-repo.org/packages/")
+     ("org"         . "https://orgmode.org/elpa/")
+     ("gnu"         . "https://elpa.gnu.org/packages/"))))
+(package-initialize)
+
+ ;;; Bootstrap use-package
+;; Install use-package if it's not already installed.
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(setq use-package-always-ensure 't)
+(require 'use-package)
+(require 'bind-key)
+(use-package coverlay)
+(use-package async)
+(use-package dash)
+(use-package f)
+(use-package s)
+(use-package scala-mode)
+(use-package esxml)
+(use-package projectile)
+#+end_src
+
+#+begin_src sh :results none
+emacs -Q -l /tmp/minimal-setup.el -l ./coverlay-for-scala.el
+#+end_src
+
